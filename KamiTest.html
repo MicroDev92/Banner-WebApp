@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Ad Baneri</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+</head>
+
+    
+<body>
+    
+<script type="text/javascript">
+        var korisniciNiz=[];
+        var ulogovaniKorisnikNiz = [];
+
+if(!isEmpty(JSON.parse(localStorage.getItem("korisnici")))){
+    korisniciNiz = JSON.parse(localStorage.getItem("korisnici"));
+   }
+else{
+    korisniciNiz.push({korIme:"Kami", sifra:"Kami"});
+}
+
+localStorage.setItem("korisnici", JSON.stringify(korisniciNiz));
+
+function Validacija(korIme, sifra){
+    var i = 0;
+    var p1 = document.getElementById("p1");
+    var p2 = document.getElementById("p2");
+    if(korIme == ""){
+        p1.innerHTML = "Morate uneti korisnicko ime!";
+        i = 1;
+    }
+    else{
+        p1.innerHTML = "";
+    }
+    if(sifra == ""){
+        p2.innerHTML = "Morate uneti sifru";
+        i = 1;
+    }
+    else{
+        p2.innerHTML = "";
+    }
+    
+    if(i != 0){
+        return false;
+    }
+    else{
+        return true;
+    }
+}
+
+function Login(){
+    var korisniciNiz = JSON.parse(localStorage.getItem("korisnici"));
+    var korIme = document.getElementById("tbKorisnickoIme").value;
+    var sifra = document.getElementById("tbSifra").value;
+    
+    if(Validacija(korIme, sifra)){
+        var postojiKor = 0;
+        var postojiSif = 0;
+        for(var i = 0; i < korisniciNiz.length; i++){
+            if(korisniciNiz[i].korIme == korIme){
+                postojiKor = 1;
+                if(korisniciNiz[i].sifra == sifra){
+                    postojiSif = 1;
+                }
+            }
+        }
+        
+        if(postojiKor == 0){
+            alert("Korisnik ne postoji");
+        }
+        else{
+            if(postojiSif == 0){
+                document.getElementById("p2").innerHTML = "pogresno ste uneli sifru";
+            }
+            else{
+                document.getElementById("p2").innerHTML = "";
+                ulogovaniKorisnikNiz.push({korIme:korIme});
+                localStorage.setItem("ulogovaniKorisnik", JSON.stringify(ulogovaniKorisnikNiz));
+                window.location = "Dashboard.html";
+            }
+        }
+    }
+    
+}
+    
+function pozovi(){
+    var korIme = document.getElementById("tbKorisnickoIme").value;
+    var sifra = document.getElementById("tbSifra").value;
+    
+    alert(korIme + sifra);
+}
+
+function isEmpty(obj) {
+    for(var prop in obj) {
+        if(obj.hasOwnProperty(prop))
+            return false;
+    }
+
+    return true;
+}
+</script>
+    
+    <h1 class="jumbotron" style="text-align: center;">Baneri</h1>
+    <center>
+        <table>
+            <tr>
+                <td>Korisnicko ime:</td>
+                <td><input id="tbKorisnickoIme" type="text"></td>
+                <td><p id="p1"></p></td>
+            </tr>
+            <tr>
+                <td>Sifra:</td>
+                <td><input id="tbSifra" type="password"></td>
+                <td><p id="p2"></p></td>
+            </tr>
+            <tr>
+                <td><input class="btn-primary" type="button" value="Prijavi se" onclick="Login();"></td>
+                <td><input class="btn-secondary" type="button" value="Novi nalog" onclick="window.location='NoviKorisnik.html'"></td>
+            </tr>
+        </table>
+    </center>
+
+
+</body>
+</html>

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Ad Baneri</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+</head>
+
+    
+<body>
+    
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+      <a class="navbar-brand" href="#">Baneri za Vas!</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="Dashboard.html">Pocetna</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Napravi novu kampanju<span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Zadnje kampanje</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Prodavnica templejta</a>
+          </li>
+            <li class="nav-item">
+            <a class="nav-link" href="#">Apdejtovi</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav navbar-right">
+            <li class="nav-item">
+                <a id="mojprof" class="nav-link" href="#"><span class="fas fa-user"></span>Moj Profil</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="OdjaviSe();"><span class="fas fa-sign-out-alt"></span>Odjava</a>
+            </li>
+        </ul>
+      </div>
+    </nav>
+    
+    <br><br>
+    <center>
+        <h2 class="jumbotron">Kreiraj kampanju</h2>
+        <table>
+            <tr>
+                <td>Unesite naziv kampanje: </td>
+                <td><input type="text"></td>
+            </tr>
+            <tr>
+                <td>Izaberite proporcije banera: </td>
+                <td><select id="selektId" onchange="NapraviBaner();"></select></td>
+            </tr>
+            <tr>
+                <td>Ubacite pozadinu: </td>
+                <td><input type="file" id="pozadinaId" onchange="PozadinaValidacija();"></td>
+            </tr>
+        </table> <br>
+        
+        <input type="button" class="btn btn-warning" value="ubacite tekst" onclick="NapraviTekst();"> <br><br>
+        
+        <div id="kontejner" style="background-image: url(); background-size: cover; background-position: center;"></div> <br><br>
+        
+        
+        
+    </center>
+    
+    
+    <script type="text/javascript">
+        var izbor = ["480x60px", "728x90px", "336x280px", "300x250px", "250x250px", "160x600px", "120x600px", "120x240px", "240x400px", "234x60px", "180x150px", "125x125px", "120x90px", "120x60px", "88x31px"];
+        
+        var selekt = document.getElementById("selektId");
+        
+        window.onload = function(){
+            for(var i = 0; i < izbor.length; i++){
+                var opt = izbor[i];
+                var el = document.createElement("option");
+                el.textContent = opt;
+                el.value = opt;
+                selekt.appendChild(el);
+            }
+            selekt.selectedIndex = 0;
+            var div = document.getElementById("kontejner");
+            div.style.height = 60 + "px";
+            div.style.width = 480 + "px";
+            div.style.border = "1px solid black";
+        }
+        
+        function PozadinaValidacija(){
+            var fajl = document.getElementById("pozadinaId").value;
+            var idxDot = fajl.lastIndexOf(".") + 1;
+            var ekstenzija = fajl.substr(idxDot, fajl.length).toLowerCase();
+            if(ekstenzija == "jpeg" || ekstenzija == "jpg" || ekstenzija == "png"){
+                ReadURL();
+               }
+            else{
+                alert("Samo jpg/jpeg i png fajlovi se mogu uploadovati!");
+                fajl.value = "";
+            }
+        }
+        
+        function ReadURL(){
+            var fajl = document.getElementById("pozadinaId").files[0];
+            var rider = new FileReader();
+            rider.onloadend = function(){
+                document.getElementById("kontejner").style.backgroundImage = "url(" + rider.result + ")";
+            }
+            if(fajl){
+                rider.readAsDataURL(fajl);
+            }
+        }
+        
+        function NapraviDiv(sirina, visina){
+            var div = document.getElementById("kontejner");
+            
+            div.style.height = visina + "px";
+            div.style.width = sirina + "px";
+            div.style.border = "1px solid black";
+            
+        }
+        
+        function NapraviBaner(){
+            if(selekt.selectedIndex == -1)
+                return null;
+            if(selekt.selectedIndex == 0)
+                NapraviDiv(480, 60);
+            if(selekt.selectedIndex == 1)
+                NapraviDiv(728, 90);
+            if(selekt.selectedIndex == 2)
+                NapraviDiv(336, 280);
+            if(selekt.selectedIndex == 3)
+                NapraviDiv(300, 250);
+            if(selekt.selectedIndex == 4)
+                NapraviDiv(250, 250);
+            if(selekt.selectedIndex == 5)
+                NapraviDiv(160, 600);
+            if(selekt.selectedIndex == 6)
+                NapraviDiv(120, 600);
+            if(selekt.selectedIndex == 7)
+                NapraviDiv(120, 240);
+            if(selekt.selectedIndex == 8)
+                NapraviDiv(240, 400);
+            if(selekt.selectedIndex == 9)
+                NapraviDiv(234, 60);
+            if(selekt.selectedIndex == 10)
+                NapraviDiv(180, 150);
+            if(selekt.selectedIndex == 11)
+                NapraviDiv(125, 125);
+            if(selekt.selectedIndex == 12)
+                NapraviDiv(120, 90);
+            if(selekt.selectedIndex == 13)
+                NapraviDiv(120, 60);
+            if(selekt.selectedIndex == 14)
+                NapraviDiv(88, 31);
+        }
+        
+        function NapraviTekst(){
+            if(!document.contains(document.getElementById("h3Id"))){
+               
+                var kontejner = document.getElementById("kontejner");
+                var tekst = document.createElement("h3");
+                var font = 20;
+                
+                tekst.innerHTML = "tekst ovde";
+                tekst.contentEditable = "true";  
+                tekst.id = "h3Id";
+                tekst.style.position = "absolute";
+                tekst.spellcheck = false;
+                tekst.style.position = "absolute";
+                tekst.style.whiteSpace = "nowrap";
+                tekst.style.fontSize = font + "px";
+                tekst.style.height = (tekst.clientHeight +1) +"px";
+                tekst.style.width = (tekst.clientWidth+1) + "px";
+                kontejner.appendChild(tekst);
+                kontejner.style.textAlign = "center";
+                PomerajElement(tekst);
+                
+                
+            }else{
+                document.getElementById("h3Id").remove();
+                
+                var kontejner = document.getElementById("kontejner");
+                var tekst = document.createElement("h3");
+                var font = 20;
+                tekst.innerHTML = "tekst ovde";
+                
+                
+                tekst.contentEditable = "true";  
+                tekst.id = "h3Id";
+                tekst.style.whiteSpace = "nowrap";
+                tekst.style.position = "absolute";
+                tekst.style.fontSize = font + "px";
+                tekst.style.height = (tekst.clientHeight +1) +"px";
+                tekst.style.width = (tekst.clientWidth+1) + "px";
+                kontejner.appendChild(tekst);
+                kontejner.style.textAlign = "center";
+                PomerajElement(tekst);
+                
+            
+            }
+        }
+        
+        
+        function PomerajElement(element){
+            var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            var kocka = document.createElement("div");
+            kocka.style.width = 10 + "px";
+            kocka.style.height = 10 + "px";
+            
+            kocka.style.position = "absolute";
+            kocka.style.bottom = 0;
+            kocka.style.right = 0;
+            kocka.style.background = "aqua";
+            kocka.style.cursor = "se-resize";
+            element.appendChild(kocka);
+            kocka.onmousedown = VuciMis;
+            
+            function VuciMis(e){
+                e = e || window.event;
+                e.preventDefault();
+                
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                
+                document.onmouseup = PrekiniPomeranje;
+                document.onmousemove = VuciElement;
+        }
+            function VuciElement(e){
+                e = e || window.event;
+                e.preventDefault();
+                
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                
+                element.style.top = (element.offsetTop - pos2) + "px";
+                element.style.left = (element.offsetLeft - pos1) + "px";
+            }
+            
+            function PrekiniPomeranje(){
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+     }
+        
+        
+        
+        
+        
+    
+    </script>
+    
+</body>
+</html>

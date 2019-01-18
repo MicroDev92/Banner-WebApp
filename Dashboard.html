@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Ad Baneri</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+</head>
+
+    
+<body>
+    
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+      <a class="navbar-brand" href="#">Baneri za Vas!</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Pocetna<span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="NovaKampanja.html">Napravi novu kampanju</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Zadnje kampanje</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Prodavnica templejta</a>
+          </li>
+            <li class="nav-item">
+            <a class="nav-link" href="#">Apdejtovi</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav navbar-right">
+            <li class="nav-item">
+                <a id="mojprof" class="nav-link" href="#"><span class="fas fa-user"></span>Moj Profil</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="OdjaviSe();"><span class="fas fa-sign-out-alt"></span>Odjava</a>
+            </li>
+        </ul>
+      </div>
+    </nav>
+    
+    <br><br>
+    
+    <h1 id="dobrodosli" class="jumbotron" style="text-align: center;"></h1>
+    
+    <script type="text/javascript">
+        
+        var kampanjeNiz = [];
+        localStorage.setItem("postojeceKampanje", JSON.stringify(kampanjeNiz));
+
+        ulogovaniKorisnikNiz = JSON.parse(localStorage.getItem("ulogovaniKorisnik"));
+        
+        window.onload = function(){
+            document.getElementById("dobrodosli").innerHTML = "Dobrodosao " + ulogovaniKorisnikNiz[0].korIme;
+        }
+        
+        
+        
+        function OdjaviSe(){
+            
+            if(confirm("Da li ste sigurni?")){
+                localStorage.removeItem("ulogovaniKorisnik");
+                window.location = "KamiTest.html";
+            }
+        }
+    </script>
+
+
+</body>
+</html>

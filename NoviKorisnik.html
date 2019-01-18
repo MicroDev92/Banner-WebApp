@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Novi Korisnik</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+</head>
+    
+<body>
+    
+    <script type="text/javascript">
+        
+        function Validacija(korIme, sifra, provSifra){
+            var i = 0;
+            
+            if(korIme == ""){
+                document.getElementById("par1").innerHTML = "Morate uneti korisnicko ime";
+                i = 1;
+            }
+            else{
+                document.getElementById("par1").innerHTML = "";
+            }
+            if(sifra == ""){
+                document.getElementById("par2").innerHTML = "Morate uneti sifru";
+                i = 1;
+            }
+            else{
+                document.getElementById("par2").innerHTML = "";
+            }
+            if(provSifra == ""){
+                document.getElementById("par3").innerHTML = "Morate uneti sifru, mozda ste pogresili pri kucanju";
+                i = 1;
+            }  
+            else if(provSifra != sifra){
+                document.getElementById("par3").innerHTML = "Niste pravilno ponovili sifru";
+            }
+            else{
+                document.getElementById("par3").innerHTML = "";
+            }
+            
+            if(i != 0)
+                return false;
+            else{
+                return true;
+            }
+        }
+        
+        
+        function Test(){
+            var korIme = document.getElementById("tbKorisnickoIme").value;
+            var sifra = document.getElementById("tbSifra").value;
+            var sifraProv = document.getElementById("tbSifraPotvrda").value;
+            
+            if(Validacija(korIme, sifra, sifraProv)){
+                var korisniciNiz = JSON.parse(localStorage.getItem("korisnici"));
+                var postoji = 0;
+                
+                for(var i = 0; i < korisniciNiz.length; i++){
+                    if(korisniciNiz[i].korIme == korIme){
+                        postoji = 1;
+                    }
+                }
+            if(postoji == 0){
+                        korisniciNiz.push({korIme:korIme, sifra:sifra});
+                        localStorage.setItem("korisnici", JSON.stringify(korisniciNiz));
+                        window.location = "KamiTest.html";
+                    }
+                    else{
+                        alert("korisnik vec postoji");
+                    }
+            }
+            
+        }
+        
+        function Odustani(){
+            if(confirm("Da li ste sigurni?"))
+                window.location = "KamiTest.html";
+            else{
+                return;
+            }
+        }
+        
+    </script>
+    
+    <h1 class="jumbotron" style="text-align: center;">Novi Korisnik</h1>
+    <center>
+        <table>
+            <tr>
+                <td>Korisnicko ime:</td>
+                <td><input id="tbKorisnickoIme" type="text"></td>
+                <td><p id="par1"></p></td>
+            </tr>
+            <tr>
+                <td>Sifra:</td>
+                <td><input id="tbSifra" type="password"></td>
+                <td><p id="par2"></p></td>
+            </tr>
+            <tr>
+                <td>Potvrdi sifru:</td>
+                <td><input id="tbSifraPotvrda" type="password"></td>
+                <td><p id="par3"></p></td>
+            </tr>
+            <tr>
+                <td><input id="btnPotvrdi" class="btn-success" type="button" value="Napravi" onclick="Test();"></td>
+                <td><input class="btn-danger" type="button" value="Odustani" onclick="Odustani();"></td>
+            </tr>
+        </table>
+    </center>
+    
+</body>
+    
+</html>
